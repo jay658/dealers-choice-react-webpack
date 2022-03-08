@@ -1,13 +1,28 @@
 const express = require('express')
 const app = express()
 const {db, Show} = require('./db')
+const { faker } = require('@faker-js/faker')
+const path = require('path')
+const { default: axios } = require('axios')
 
-app.use(express.json())
+app.use('/dist', express.static(path.join(__dirname, 'dist')))
+
+app.get('/', (req, res)=> res.sendFile(path.join(__dirname, 'index.html')))
 
 app.post('/api/shows', async(req, res, next)=>{
     try{
-        await Show.create(req.body)
-        res.sendStatus(201)
+        await randomShow()
+        res.send(await Show.findAll())
+    }catch(err){
+        next(err)
+    }
+})
+
+app.delete('/api/shows/:id', async(req, res, next)=>{
+    try{
+        const show = await Show.findByPk(req.params.id)
+        await show.destroy()
+        res.send(await Show.findAll())
     }catch(err){
         next(err)
     }
@@ -21,12 +36,11 @@ app.get('/api/shows', async(req, res, next)=>{
     }
 })
 
-// const randomName = faker.random.words(faker.random.number(3))
-// console.log(randomName)
+const possiblePlatforms = ['netflix', 'disney plus', 'prime video']
 
-// const randomShow = ()=>{
-//     return Show.create({})
-// }
+const randomShow = ()=>{
+    return Show.create({name:faker.random.words(Math.floor(Math.random()+3)), platform:possiblePlatforms[Math.floor(Math.random()*3)]})
+}
 
 const setUp = async()=>{
     try{
