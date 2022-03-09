@@ -29,7 +29,7 @@ class Show extends React.Component{
       const shows = response.data
       this.setState({shows})
     }catch(ex){
-      console.log('There was an error deleting a show', ex)
+      console.log('There was an error deleting a show')
     }
   }
 
@@ -57,7 +57,7 @@ class Show extends React.Component{
     const shows = this.state.shows
     return(
       <div>
-        <h1>My shows</h1>
+        <h1>My shows ({this.state.shows.length})</h1>
         <button onClick = {()=> this.addShow()}>Add a show</button>
         <div><ShowList shows={shows} deleteShow = {this.deleteShow}/> </div>
       </div>
