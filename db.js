@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize')
-const db = new Sequelize(process.env.DATABASEURL|| 'postgres://localhost/webpack_db')
+const db = new Sequelize(process.env.DATABASE_URL|| 'postgres://localhost/webpack_db')
 
 const Show = db.define('show', {
     name:{

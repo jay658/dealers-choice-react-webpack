@@ -3,7 +3,6 @@ const app = express()
 const {db, Show} = require('./db')
 const { faker } = require('@faker-js/faker')
 const path = require('path')
-const { default: axios } = require('axios')
 
 app.use('/dist', express.static(path.join(__dirname, 'dist')))
 
